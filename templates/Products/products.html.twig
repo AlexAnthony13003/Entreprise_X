@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entreprise X - Produits
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Produits</h1>
+
+        <a href="{{ path('products.new' )}}">Ajouter un produit</a>
+        
+        <table>
+  <thead>
+    <tr>
+      <th scope="col">Numéro</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Marque</th>
+      <th scope="col">Prix</th>
+      <th scope="col">Edition</th>
+      <th scope="col">Suppression</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in products %}
+      <th scope="row">{{ product.id }}</th>
+      <td>{{ product.name }}</td>
+      <td>{{ product.brand }}</td>
+      <td>{{ product.price }}€</td>
+      <td><a href="{{ path('products.edit', { id: product.id })}}" class="btn btn-info">Modifier</a></td>
+      <td><a href="{{ path('products.delete', { id: product.id })}}" class="btn btn-warning">Supprimer</a></td>
+    </tr>   
+        {% endfor %}
+  </tbody>
+    </table>
+    <div class="navigation d-flex justify-content-center mt-4">
+        {{ knp_pagination_render(products) }}
+    </div>
+    </div>
+{% endblock %}
