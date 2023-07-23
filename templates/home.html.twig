@@ -3,18 +3,26 @@
 {% block title %}Entreprise X - Accueil
 {% endblock %}
 {% block body %}
-	<h1>Bienvenue chez Entreprise_X!</h1>
-	<p>L'entreprise X vend tout type de produits dans la catégorie IT. Vous pouvez des produits tels que des télévisions, des téléphones ou encore des ordinateurs.</p>
-	<hr class="my-4">
-	<p>Pour commencer, rendez-vous sur la page d'inscription/connexion pour utiliser l'application.</p>
-	<p>
-		<a href="{{'/inscription'}}" role="button">S'inscrire</a>
-		<a href="{{'/connexion'}}" role="button">Se connecter</a>
-	</p>
 	{% if app.user %}
-	<p>
-		<a href="{{'/products'}}" role="button">Vers les produits</a>
-		<a href="{{'/customers'}}" role="button">Vers les clients</a>
-	</p>
+		<h1>Bon retour chez Entreprise_X!</h1>
+		<p>L'entreprise X vend tout type de produits dans la catégorie IT. Vous pouvez des produits tels que des télévisions, des téléphones ou encore des ordinateurs.</p>
+		<hr class="my-4">
+		<p>
+			<a href="{{'/products'}}" role="button">Vers les produits</a>
+			<a href="{{'/customers'}}" role="button">Vers les clients</a>
+			<a href="{{ path ('security.logout')}}">Deconnexion</a>
+
+		</p>
+	{% else %}
+
+		<h1>Bienvenue chez Entreprise_X!</h1>
+		<p>L'entreprise X vend tout type de produits dans la catégorie IT. Vous pouvez des produits tels que des télévisions, des téléphones ou encore des ordinateurs.</p>
+		<hr class="my-4">
+		<p>Pour commencer, rendez-vous sur la page d'inscription/connexion pour utiliser l'application.</p>
+		<p>
+			<a href="{{'/inscription'}}" role="button">S'inscrire</a>
+			<a href="{{'/connexion'}}" role="button">Se connecter</a>
+		</p>
 	{% endif %}
-	{% endblock %}
+
+{% endblock %}
