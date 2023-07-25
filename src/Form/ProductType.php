@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -37,6 +39,13 @@ class ProductType extends AbstractType
                     new Assert\NotBlank()
                 ]
             ])
+            ->add('idCat', EntityType::class, [
+                'class' => Category::class,
+                'label' => 'Catégorie',
+                'choice_label' => 'NameCat', // Nom de la propriété à afficher dans la liste déroulante
+                'placeholder' => 'Choisissez une catégorie',
+                'mapped' => true, // Lien avec l'entité Product (true par défaut)
+                ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider'
             ]);
