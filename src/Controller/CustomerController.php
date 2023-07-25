@@ -26,7 +26,7 @@ class CustomerController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('customers/customers.html.twig', [
+        return $this->render('customers/index.html.twig', [
             'customers' => $customers
         ]);
     }

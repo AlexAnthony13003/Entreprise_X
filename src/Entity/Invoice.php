@@ -17,13 +17,13 @@ class Invoice
 
     #[ORM\ManyToOne(inversedBy: 'invoices')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Customer $customerID = null;
+    private ?Customer $customerId = null;
 
     #[ORM\Column]
-    private ?\DateTime $Date = null;
+    private ?\DateTime $date = null;
 
     #[ORM\Column]
-    private ?float $TotalPrice = null;
+    private ?float $totalPrice = null;
 
     #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'invoices')]
     private Collection $products;
@@ -39,38 +39,38 @@ class Invoice
         return $this->id;
     }
 
-    public function getCustomerID(): ?Customer
+    public function getCustomerId(): ?Customer
     {
-        return $this->customerID;
+        return $this->customerId;
     }
 
-    public function setCustomerID(?Customer $customerID): static
+    public function setCustomerId(?Customer $customerId): static
     {
-        $this->customerID = $customerID;
+        $this->customerId = $customerId;
 
         return $this;
     }
 
     public function getDate(): ?\DateTime
     {
-        return $this->Date;
+        return $this->date;
     }
 
-    public function setDate(\DateTime $Date): static
+    public function setDate(\DateTime $date): static
     {
-        $this->Date = $Date;
+        $this->date = $date;
 
         return $this;
     }
 
     public function getTotalPrice(): ?int
     {
-        return $this->TotalPrice;
+        return $this->totalPrice;
     }
 
-    public function setTotalPrice(?int $totalprice): static
+    public function setTotalPrice(?int $totalPrice): static
     {
-        $this->TotalPrice = $totalprice;
+        $this->totalPrice = $totalPrice;
 
         return $this;
     }

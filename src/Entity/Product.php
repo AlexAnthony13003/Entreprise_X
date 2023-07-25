@@ -16,13 +16,13 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $Name = null;
+    private ?string $name = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Brand = null;
+    private ?string $brand = null;
 
     #[ORM\Column]
-    private ?float $Price = null;
+    private ?float $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $idCat = null;
@@ -42,36 +42,36 @@ class Product
 
     public function getName(): ?string
     {
-        return $this->Name;
+        return $this->name;
     }
 
-    public function setName(string $Name): static
+    public function setName(string $name): static
     {
-        $this->Name = $Name;
+        $this->name = $name;
 
         return $this;
     }
 
     public function getBrand(): ?string
     {
-        return $this->Brand;
+        return $this->brand;
     }
 
-    public function setBrand(string $Brand): static
+    public function setBrand(string $brand): static
     {
-        $this->Brand = $Brand;
+        $this->brand = $brand;
 
         return $this;
     }
 
     public function getPrice(): ?float
     {
-        return $this->Price;
+        return $this->price;
     }
 
-    public function setPrice(float $Price): static
+    public function setPrice(float $price): static
     {
-        $this->Price = $Price;
+        $this->price = $price;
 
         return $this;
     }

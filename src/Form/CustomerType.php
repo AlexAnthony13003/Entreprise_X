@@ -17,29 +17,61 @@ class CustomerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Firstname', TextType::class, [
+            ->add('firstName', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'minlength' => '2',
+                    'maxlength' => '50'
+                ],
                 'label' => 'Prenom',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ],
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 50]),
                     new Assert\NotBlank()
                 ]
             ])
-            ->add('Lastname', TextType::class, [
+            ->add('lastName', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'minlength' => '2',
+                    'maxlength' => '50'
+                ],
                 'label' => 'Nom',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ],
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 50]),
                     new Assert\NotBlank()
                 ]
             ])
             ->add('street', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'minlength' => '2',
+                    'maxlength' => '255'
+                ],
                 'label' => 'Rue',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ],
                 'constraints' => [
                     new Assert\NotBlank()
                 ]
 
             ])
             ->add('postalCode', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'minlength' => '6',
+                    'maxlength' => '10'
+                ],
                 'label' => 'Code postal',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ],
                 'constraints' => [
                     new Assert\Length([
                         'min' => 5,
@@ -50,20 +82,39 @@ class CustomerType extends AbstractType
                 ]
             ])
             ->add('city', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'minlength' => '2',
+                    'maxlength' => '50'
+                ],
                 'label' => 'Ville',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ],
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 50]),
                     new Assert\NotBlank()
                 ]
             ])
             ->add('country', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'minlength' => '2',
+                    'maxlength' => '50'
+                ],
                 'label' => 'Pays',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ],
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 50]),
                     new Assert\NotBlank()
                 ]
             ])
             ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-dark mt-4'
+                ],
                 'label' => 'Valider'
             ]);
     }

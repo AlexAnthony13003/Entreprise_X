@@ -1,8 +1,12 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
+
+{% block title %}Entreorise X - Ajout Produit{% endblock %}
 
 {% block body %}
-    <h1>Ajout d'un produit</h1>
+    <div class="container">
+    <h1 class='mt-4'>Ajout d'un produit</h1>
 
-{{form(form)}}
-</div>
+    {{form(form)}}
+    
+    </div>
 {% endblock %}

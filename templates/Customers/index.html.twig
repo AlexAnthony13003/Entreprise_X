@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entreprise X - Clients
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-4">
+		<h1>Clients</h1>
+
+		<a href="{{ path ('customers.new')}}" class=" btn btn-dark mt-4">Ajouter un Client</a>
+
+		<table class="table table-hover mt-4">
+			<thead>
+				<tr class="table-secondary">
+					<th scope="col">Numéro</th>
+					<th scope="col">Nom</th>
+					<th scope="col">Prenom</th>
+					<th scope="col">Adresse</th>
+					<th scope="col">Code Postal</th>
+					<th scope="col">Ville</th>
+					<th scope="col">Pays</th>
+					<th scope="col">Edition</th>
+					<th scope="col">Suppression</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for customer in customers %}
+					<th scope="row">{{ customer.id }}</th>
+					<td>{{ customer.firstName }}</td>
+					<td>{{ customer.lastName }}</td>
+					<td>{{ customer.street }}</td>
+					<td>{{ customer.postalCode }}</td>
+					<td>{{ customer.city }}</td>
+					<td>{{ customer.country }}</td>
+					<td>
+						<a href="{{ path('customers.edit', { id: customer.id })}}" class="btn btn-info">Modifier</a>
+					</td>
+					<td>
+						<a href="{{ path('customers.delete', { id: customer.id })}}" class="btn btn-warning">Supprimer</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div>
+		{{ knp_pagination_render(customers) }}
+	</div>
+</div>{% endblock %}

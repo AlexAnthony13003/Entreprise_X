@@ -16,22 +16,22 @@ class Customer
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Firstname = null;
+    private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Lastname = null;
+    private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Street = null;
+    private ?string $street = null;
 
     #[ORM\Column]
-    private ?int $Postal_Code = null;
+    private ?int $postalCode = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $City = null;
+    private ?string $city = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Country = null;
+    private ?string $country = null;
 
     #[ORM\OneToMany(mappedBy: 'customerID', targetEntity: Invoice::class)]
     private Collection $invoices;
@@ -48,72 +48,72 @@ class Customer
 
     public function getFirstname(): ?string
     {
-        return $this->Firstname;
+        return $this->firstname;
     }
 
-    public function setFirstname(string $Firstname): static
+    public function setFirstname(string $firstname): static
     {
-        $this->Firstname = $Firstname;
+        $this->firstname = $firstname;
 
         return $this;
     }
 
     public function getLastname(): ?string
     {
-        return $this->Lastname;
+        return $this->lastname;
     }
 
-    public function setLastname(string $Lastname): static
+    public function setLastname(string $lastname): static
     {
-        $this->Lastname = $Lastname;
+        $this->lastname = $lastname;
 
         return $this;
     }
 
     public function getStreet(): ?string
     {
-        return $this->Street;
+        return $this->street;
     }
 
-    public function setStreet(string $Street): static
+    public function setStreet(string $street): static
     {
-        $this->Street = $Street;
+        $this->street = $street;
 
         return $this;
     }
 
     public function getPostalCode(): ?int
     {
-        return $this->Postal_Code;
+        return $this->postalCode;
     }
 
-    public function setPostalCode(int $Postal_Code): static
+    public function setPostalCode(int $postalCode): static
     {
-        $this->Postal_Code = $Postal_Code;
+        $this->postalCode = $postalCode;
 
         return $this;
     }
 
     public function getCity(): ?string
     {
-        return $this->City;
+        return $this->city;
     }
 
-    public function setCity(string $City): static
+    public function setCity(string $city): static
     {
-        $this->City = $City;
+        $this->city = $city;
 
         return $this;
     }
 
     public function getCountry(): ?string
     {
-        return $this->Country;
+        return $this->country;
     }
 
-    public function setCountry(string $Country): static
+    public function setCountry(string $country): static
     {
-        $this->Country = $Country;
+        $this->country = $country;
 
         return $this;
     }
