@@ -4,11 +4,8 @@ namespace App\Form;
 
 use App\Entity\Invoice;
 use App\Entity\Product;
-use App\Entity\Category;
 use App\Entity\Customer;
 use App\Repository\ProductRepository;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -22,12 +19,20 @@ class InvoiceType extends AbstractType
     {
         $builder
         ->add('customerId', EntityType::class, [
+            'attr' => [
+                'class' => 'form-control',
+                'minlength' => '2',
+                'maxlength' => '50'
+            ],
             'class' => Customer::class,
             'label' => 'Client',
             'choice_label' => function (Customer $customer) {
                 return $customer->getLastName() . ' ' . $customer->getFirstName();
             },
             'placeholder' => 'Choisissez un client',
+            'label_attr' => [
+                'class' => 'form-label mt-4'
+            ],
         ])
         // ->add('idCat', EntityType::class, [
         //     'class' => Category::class,
@@ -71,16 +76,25 @@ class InvoiceType extends AbstractType
             'class' => Product::class,
             'query_builder' => function (ProductRepository $product) {
                 return $product->createQueryBuilder('p')
-                    ->orderBy('p.Name', 'ASC');
+                    ->orderBy('p.name', 'ASC');
             },
             'choice_label' => 'name',
             'multiple' => true, // Permet de sélectionner plusieurs produits
             'expanded' => true, // Affiche les produits sous forme de cases à cocher
+            'label_attr' => [
+                'class' => 'form-label mt-4'
+            ],
         ])
         ->add('date', DateType::class, [
             'label' => 'Date', 
+            'label_attr' => [
+                'class' => 'form-label mt-4'
+            ],
         ])
         ->add('submit', SubmitType::class, [
+            'attr' => [
+                'class' => 'btn btn-dark mt-4'
+            ],
             'label' => 'Valider'
         ])
         ;

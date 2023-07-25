@@ -26,7 +26,7 @@ class ProductController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('products/products.html.twig', [
+        return $this->render('products/index.html.twig', [
             'products' => $products
         ]);
     }

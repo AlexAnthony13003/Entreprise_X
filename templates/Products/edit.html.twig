@@ -1,8 +1,12 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
+
+{% block title %}Entreprise X - Modification Produit{% endblock %}
 
 {% block body %}
-    <h1>Modification du produit</h1>
+    <div class="container">
+    <h1 class='mt-4'>Modification d'un produit</h1>
 
-{{form(form)}}
-</div>
+    {{form(form)}}
+    
+    </div>
 {% endblock %}

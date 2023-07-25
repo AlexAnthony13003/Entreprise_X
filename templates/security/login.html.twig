@@ -7,18 +7,18 @@
     <h1 class='mt-4'>Formulaire de connexion</h1>
 
     <form action="{{ path('security.login') }}" method="post">
-        <div class="form-group">
-            <label for="username">Addresse email</label>
-            <input type="email" id="username" placeholder="exemple@symfony.com" name="_username"
+        <div class="form-group mt-4">
+            <label for="username" >Addresse email</label>
+            <input type="email" id="username" placeholder="exemple@symfony.com" name="_username" class="form-control mt-4"
             value="{{last_username}}">
         </div>
-        <div class="form-group">
+        <div class="form-group mt-4">
             <label for="password">Mot de passe</label>
-            <input type="password" name="_password" id="password">
+            <input type="password" name="_password" id="password"class="form-control mt-4">
         </div>
 
-        <button type ="submit" class="btn btn-primary mt-4">Se Connecter</button>
-        <a href="/inscription">S'inscrire</a>
+        <button type ="submit" class="btn btn-dark mt-4">Se Connecter</button>
+            <a class="btn btn-primary mt-4" href="{{ path ('security.registration')}}" role="button">S'inscrire</a>
 
     </form>
     </div>

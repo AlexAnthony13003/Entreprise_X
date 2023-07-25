@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entreprise X - Facturation
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-4">
+		<h1>Factures</h1>
+
+		<a href="{{ path ('invoices.new')}}" class="btn btn-dark mt-4">Ajouter une facture</a>
+
+		<table class="table table-hover mt-4">
+			<thead>
+				<tr class="table-secondary">
+					<th scope="col">Numéro</th>
+					<th scope="col">Client</th>
+					<th scope="col"></th>
+					<th scope="col">Produits</th>
+					<th scope="col">Date</th>
+					<th scope="col">Montant</th>
+					<th scope="col">Edition</th>
+					<th scope="col">Suppression</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for invoice in invoices %}
+					<th scope="row">{{ invoice.id }}</th>
+					<td>{{ invoice.customerId.lastName }}</td>
+					<td>{{ invoice.customerId.firstName }}</td>
+					<td>
+						{% for product in invoice.products %}
+							{{ product.name }}
+							{{product.price}}
+							€
+							{% if not loop.last %}||
+							{% endif %}
+						{% endfor %}
+					</td>
+					<td>{{ invoice.date.format('Y-m-d') }}</td>
+					<td>{{ invoice.totalPrice }}€</td>
+					<td>
+						<a href="{{ path('invoices.edit', { id: invoice.id })}}" class="btn btn-info">Modifier</a>
+					</td>
+					<td>
+						<a href="{{ path('invoices.delete', { id: invoice.id })}}"  class="btn btn-warning">Supprimer</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="navigation d-flex justify-content-center mt-4">
+		{{ knp_pagination_render(invoices) }}
+	</div>
+</div>{% endblock %}

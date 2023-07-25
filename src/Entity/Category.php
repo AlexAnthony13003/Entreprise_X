@@ -16,7 +16,7 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $NameCat = null;
+    private ?string $nameCat = null;
 
     #[ORM\OneToMany(mappedBy: 'idCat', targetEntity: Product::class)]
     private Collection $products;
@@ -33,12 +33,12 @@ class Category
 
     public function getNameCat(): ?string
     {
-        return $this->NameCat;
+        return $this->nameCat;
     }
 
-    public function setNameCat(string $NameCat): static
+    public function setNameCat(string $nameCat): static
     {
-        $this->NameCat = $NameCat;
+        $this->nameCat = $nameCat;
 
         return $this;
     }

@@ -28,10 +28,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Firstname = null;
+    private ?string $firstName = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Lastname = null;
+    private ?string $lastName = null;
 
     public function getId(): ?int
     {
@@ -103,26 +103,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->Firstname;
+        return $this->firstName;
     }
 
-    public function setFirstname(string $Firstname): static
+    public function setFirstname(string $firstName): static
     {
-        $this->Firstname = $Firstname;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
     public function getLastname(): ?string
     {
-        return $this->Lastname;
+        return $this->lastName;
     }
 
-    public function setLastname(string $Lastname): static
+    public function setLastname(string $lastName): static
     {
-        $this->Lastname = $Lastname;
+        $this->lastName = $lastName;
 
         return $this;
     }

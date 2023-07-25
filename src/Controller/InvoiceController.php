@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class InvoiceController extends AbstractController
 {
-    #[Route('/invoices', name: 'invoice.index', methods: ['GET'])]
+    #[Route('/invoices', name: 'invoices.index', methods: ['GET'])]
     public function index(InvoiceRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $this->denyAccessUnlessGranted("ROLE_USER");
@@ -26,11 +26,11 @@ class InvoiceController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('invoices/invoices.html.twig', [
+        return $this->render('invoices/index.html.twig', [
             'invoices' => $invoices
         ]);
     }
-    #[Route('/invoices/new', name: 'invoice.new', methods: ['GET', 'POST'])]
+    #[Route('/invoices/new', name: 'invoices.new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted("ROLE_USER");
@@ -56,14 +56,14 @@ class InvoiceController extends AbstractController
             $entityManager->persist($invoice);
             $entityManager->flush();
 
-            return $this->redirectToRoute('invoice.index');
+            return $this->redirectToRoute('invoices.index');
         }
 
         return $this->render('invoices/new.html.twig', [
             'form' => $form->createView(),
         ]);
     }
-    #[Route('/invoices/edit/{id}', 'invoice.edit', methods: ['GET', 'POST'])]
+    #[Route('/invoices/edit/{id}', 'invoices.edit', methods: ['GET', 'POST'])]
     public function edit(InvoiceRepository $repository, int $id, Request $request, EntityManagerInterface $manager) : Response
     {
         $this->denyAccessUnlessGranted("ROLE_USER");
@@ -86,7 +86,7 @@ class InvoiceController extends AbstractController
             $manager->persist($invoice);
             $manager->flush();
 
-            return $this->redirectToRoute('invoice.index');
+            return $this->redirectToRoute('invoices.index');
             ;
         }
 
@@ -94,13 +94,13 @@ class InvoiceController extends AbstractController
             'form' =>$form->createView()
         ]);
     }
-    #[Route('/invoices/delete/{id}', 'invoice.delete', methods: ['GET'])]
+    #[Route('/invoices/delete/{id}', 'invoices.delete', methods: ['GET'])]
     public function delete(int $id, InvoiceRepository $repository, EntityManagerInterface $manager) : Response{
         
         $invoice = $repository->findOneBy(["id" => $id]);
         $manager ->remove($invoice);
         $manager ->flush();
 
-        return $this->redirectToRoute('invoice.index');
+        return $this->redirectToRoute('invoices.index');
     }
 }

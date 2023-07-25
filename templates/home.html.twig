@@ -3,27 +3,20 @@
 {% block title %}Entreprise X - Accueil
 {% endblock %}
 {% block body %}
-	{% if app.user %}
-		<h1>Bon retour chez Entreprise_X!</h1>
-		<p>L'entreprise X vend tout type de produits dans la catégorie IT. Vous pouvez des produits tels que des télévisions, des téléphones ou encore des ordinateurs.</p>
-		<hr class="my-4">
-		<p>
-			<a href="{{'/products'}}" role="button">Vers les produits</a>
-			<a href="{{'/customers'}}" role="button">Vers les clients</a>
-			<a href="{{'/invoices'}}" role="button">Facturation</a>
-			<a href="{{ path ('security.logout')}}">Deconnexion</a>
-
-		</p>
-	{% else %}
-
-		<h1>Bienvenue chez Entreprise_X!</h1>
-		<p>L'entreprise X vend tout type de produits dans la catégorie IT. Vous pouvez des produits tels que des télévisions, des téléphones ou encore des ordinateurs.</p>
-		<hr class="my-4">
-		<p>Pour commencer, rendez-vous sur la page d'inscription/connexion pour utiliser l'application.</p>
-		<p>
-			<a href="{{'/inscription'}}" role="button">S'inscrire</a>
-			<a href="{{'/connexion'}}" role="button">Se connecter</a>
-		</p>
-	{% endif %}
-
+	<div class="container mt-4">
+        <div class="jumbotron">
+            <h1 class="display-4">{% if app.user %}Bon retour chez Entreprise X !{% else %} Bienvenue chez Entreprise X !{% endif %}
+				
+			</h1>
+            <p class="lead">Ceci est un projet Symfony qui parle de la société Entreprise X qui vend du materiel IT.</p>
+            <hr class="my-4">
+			{% if not app.user %}
+            <p>Pour commencer, rendez-vous sur la page d'inscription pour utiliser l'application.</p>
+			<p class="lead">
+            <a class="btn btn-primary btn-lg" href="{{ path ('security.registration')}}" role="button">S'inscrire</a>
+            </p>{% endif %}
+			
+            
+        </div>
+    </div>
 {% endblock %}
