@@ -4,19 +4,24 @@
 {% endblock %}
 {% block body %}
 	<div class="container mt-4">
-        <div class="jumbotron">
-            <h1 class="display-4">{% if app.user %}Bon retour chez Entreprise X !{% else %} Bienvenue chez Entreprise X !{% endif %}
-				
+		<div class="jumbotron">
+			<h1 class="display-4">
+				{% if app.user %}Bon retour chez Entreprise X !
+				{% else %}
+					Bienvenue chez Entreprise X !
+				{% endif %}
+
 			</h1>
-            <p class="lead">Ceci est un projet Symfony qui parle de la société Entreprise X qui vend du materiel IT.</p>
-            <hr class="my-4">
+			<p class="lead">Ceci est un projet Symfony qui parle de la société Entreprise X qui vend du materiel IT.</p>
+			<hr class="my-4">
 			{% if not app.user %}
-            <p>Pour commencer, rendez-vous sur la page d'inscription pour utiliser l'application.</p>
-			<p class="lead">
-            <a class="btn btn-primary btn-lg" href="{{ path ('security.registration')}}" role="button">S'inscrire</a>
-            </p>{% endif %}
-			
-            
-        </div>
-    </div>
+				<p>Pour commencer, rendez-vous sur la page d'inscription pour utiliser l'application.</p>
+				<p class="lead">
+					<a class="btn btn-primary btn-lg" href="{{ path ('security.registration')}}" role="button">S'inscrire</a>
+				</p>
+			{% endif %}
+
+
+		</div>
+	</div>
 {% endblock %}

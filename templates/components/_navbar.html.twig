@@ -1,47 +1,41 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{{ path ('home.index')}}">Entreprise X</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarColor01">
-      <ul class="navbar-nav me-auto">
-        {% if app.user %}
-          <li class="nav-item">
-          <a class="nav-link active" href="{{ path ('customers.index')}}">Clients
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="{{ path ('products.index')}}">Produits
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="{{ path ('invoices.index')}}">Factures
-          </a>
-        </li>
-        {% endif %}
-      </ul>
-      <div class="d-flex">
-      {% if app.user %}
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-          <a class="nav-link active" href="{{ path ('security.logout')}}">Deconnexion
-          </a>
-        </li>
-        </ul>
+	<div class="container-fluid">
+		<a class="navbar-brand" href="{{ path('home.index') }}">Entreprise X</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarColor01">
+			<ul class="navbar-nav me-auto">
+				{% if app.user %}
+					<li class="nav-item">
+						<a class="nav-link active" href="{{ path('customers.index') }}">Clients</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="{{ path('products.index') }}">Produits</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="{{ path('invoices.index') }}">Factures</a>
+					</li>
+				{% endif %}
+			</ul>
+			<div class="d-flex">
+				<ul class="navbar-nav me-auto">
+					{% if app.user %}
+						<li class="nav-item">
+							<a class="nav-link active" href="{{ path('security.logout') }}">Deconnexion</a>
+						</li>
+					{% else %}
+						<li class="nav-item dropdown" style="margin-right: 3rem;">
+							<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">S'authentifier</a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="{{ path('security.login') }}">Connexion</a>
+								<a class="dropdown-item" href="{{ path('security.registration') }}">Inscription</a>
+							</div>
+						</li>
+					{% endif %}
+				</ul>
 
-      {% else %}
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item dropdown" style="margin-right: 3rem;">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">S'authentifier</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ path ('security.login')}}">Connexion</a>
-            <a class="dropdown-item" href="{{ path ('security.registration')}}">Inscription</a>
-          </div>
-        </li>
-      </ul>
-      {% endif %}
-      </div>
-    </div>
-  </div>
+			</div>
+		</div>
+	</div>
 </nav>

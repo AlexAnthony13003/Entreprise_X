@@ -45,6 +45,10 @@ class CustomerController extends AbstractController
         if ($form->isSubmitted()&& $form-> isValid()) {
             $customer = $form->getData(); 
             $manager->persist($customer);
+            $this->addFlash(
+                'success',
+                'Le client a été créé avec succès'
+            );
             $manager->flush();
 
             return $this->redirectToRoute('customers.index');
@@ -67,7 +71,10 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()&& $form-> isValid()) {
             $customer = $form->getData();
-            
+            $this->addFlash(
+                'success',
+                'Le client a été modifié avec succès'
+            );
             $manager->persist($customer);
             $manager->flush();
 

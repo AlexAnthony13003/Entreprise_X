@@ -44,6 +44,10 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()&& $form-> isValid()) {
             $product = $form->getData();
+            $this->addFlash(
+                'success',
+                'Votre produit a été créé avec succès'
+            );
             $manager->persist($product);
             $manager->flush();
 
@@ -67,7 +71,10 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()&& $form-> isValid()) {
             $product = $form->getData();
-            
+            $this->addFlash(
+                'success',
+                'Votre produit a été modifié avec succès'
+            );
             $manager->persist($product);
             $manager->flush();
 
@@ -84,6 +91,10 @@ class ProductController extends AbstractController
         
         $product = $repository->findOneBy(["id" => $id]);
         $manager ->remove($product);
+        $this->addFlash(
+            'success',
+            'Votre produit a été supprimé avec succès'
+        );
         $manager ->flush();
 
         return $this->redirectToRoute('products.index');
