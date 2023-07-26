@@ -16,10 +16,10 @@ class Customer
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $firstname = null;
+    private ?string $firstName = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $lastname = null;
+    private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
     private ?string $street = null;
@@ -48,24 +48,24 @@ class Customer
 
     public function getFirstname(): ?string
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
-    public function setFirstname(string $firstname): static
+    public function setFirstname(string $firstName): static
     {
-        $this->firstname = $firstname;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
     public function getLastname(): ?string
     {
-        return $this->lastname;
+        return $this->lastName;
     }
 
-    public function setLastname(string $lastname): static
+    public function setLastname(string $lastName): static
     {
-        $this->lastname = $lastname;
+        $this->lastName = $lastName;
 
         return $this;
     }

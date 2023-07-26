@@ -9,46 +9,49 @@
 
 		<a href="{{ path ('invoices.new')}}" class="btn btn-dark mt-4">Ajouter une facture</a>
 
-		<table class="table table-hover mt-4">
-			<thead>
-				<tr class="table-secondary">
-					<th scope="col">Numéro</th>
-					<th scope="col">Client</th>
-					<th scope="col"></th>
-					<th scope="col">Produits</th>
-					<th scope="col">Date</th>
-					<th scope="col">Montant</th>
-					<th scope="col">Edition</th>
-					<th scope="col">Suppression</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for invoice in invoices %}
-					<th scope="row">{{ invoice.id }}</th>
-					<td>{{ invoice.customerId.lastName }}</td>
-					<td>{{ invoice.customerId.firstName }}</td>
-					<td>
-						{% for product in invoice.products %}
-							{{ product.name }}
-							{{product.price}}
-							€
-							{% if not loop.last %}||
-							{% endif %}
-						{% endfor %}
-					</td>
-					<td>{{ invoice.date.format('Y-m-d') }}</td>
-					<td>{{ invoice.totalPrice }}€</td>
-					<td>
-						<a href="{{ path('invoices.edit', { id: invoice.id })}}" class="btn btn-info">Modifier</a>
-					</td>
-					<td>
-						<a href="{{ path('invoices.delete', { id: invoice.id })}}"  class="btn btn-warning">Supprimer</a>
-					</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	<div class="navigation d-flex justify-content-center mt-4">
-		{{ knp_pagination_render(invoices) }}
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success mt-4">
+				{{ message }}
+			</div>
+		{% endfor %}
+		{% for chunk in invoices|batch(4) %}
+			<div class="d-flex justify-content-center container mt-5">
+				{% for invoice in chunk %}
+					<div class="card p-3 bg-white">
+						<div class="about-product text-center mt-2">
+							<div>
+								<h3>Facture n°{{ invoice.id }}</h3>
+								<h5 class="mt-0 text-black-50">{{ invoice.customerId.lastName }}
+									{{ invoice.customerId.firstName }}</h5>
+								<h6 class="mt-0 text-black-50">{{ invoice.customerId.street }}</h6>
+								<h6 class="mt-0 text-black-50">{{ invoice.customerId.postalCode }}</h6>
+								<h6 class="mt-0 text-black-50">{{ invoice.customerId.city }}</h6>
+								<h6 class="mt-0 text-black-50">{{ invoice.customerId.country }}</h6>
+							</div>
+						</div>
+						<div class="stats mt-2">
+							{% for product in invoice.products %}
+								<div class="d-flex justify-content-between p-price">
+									<span>{{ product.name }} -></span>
+									<span>
+										{{product.price}}€</span>
+								</div>
+							{% endfor %}
+						</div>
+						<h6 class="mt-0 text-black-50 text-center mt-4">{{ invoice.date.format('Y-m-d') }}</h6>
+						<div class="d-flex justify-content-between total font-weight-bold mt-4">
+							<span>Total</span>
+							<span>{{ invoice.totalPrice }}€</span>
+						</div>
+						<a href="{{ path('invoices.edit', { id: invoice.id })}}" class="btn btn-info mt-4">Modifier</a>
+						<a href="{{ path('invoices.delete', { id: invoice.id })}}" class="btn btn-warning mt-4">Supprimer</a>
+					</div>
+				{% endfor %}
+			</div>
+			<div class="spacer"></div>
+		{% endfor %}
+		<div class="navigation d-flex justify-content-center mt-4">
+			{{ knp_pagination_render(invoices) }}
+		</div>
 	</div>
-</div>{% endblock %}
+{% endblock %}
