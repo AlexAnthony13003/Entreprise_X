@@ -32,37 +32,35 @@ class InvoiceController extends AbstractController
     }
     #[Route('/invoices/new', name: 'invoices.new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $this->denyAccessUnlessGranted("ROLE_USER");
-        $invoice = new Invoice();
+{
+    $this->denyAccessUnlessGranted("ROLE_USER");
+    $invoice = new Invoice();
 
-        $form = $this->createForm(InvoiceType::class, $invoice);
+    $form = $this->createForm(InvoiceType::class, $invoice);
 
-        $form->handleRequest($request);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Process the data and calculate the total price for the invoice
-            $totalPrice = 0;
-            $selectedProducts = $invoice->getProducts();
-            foreach ($selectedProducts as $product) {
-                $price = $product->getPrice();
-                $totalPrice += $price;
-            }
+    if ($form->isSubmitted() && $form->isValid()) {
+
+        $totalPrice = $form->get('totalPrice')->getData();
 
             // Set the total price for the invoice
             $invoice->setTotalPrice($totalPrice);
 
-            // Save the invoice to the database
-            $entityManager->persist($invoice);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('invoices.index');
-        }
-
-        return $this->render('invoices/new.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        // Save the invoice to the database
+        $entityManager->persist($invoice);
+        $entityManager->flush();
+        $this->addFlash(
+            'success',
+            'Votre facture a été créée avec succès'
+        );
+        return $this->redirectToRoute('invoices.index');
     }
+
+    return $this->render('invoices/new.html.twig', [
+        'form' => $form->createView(),
+    ]);
+}
     #[Route('/invoices/edit/{id}', 'invoices.edit', methods: ['GET', 'POST'])]
     public function edit(InvoiceRepository $repository, int $id, Request $request, EntityManagerInterface $manager) : Response
     {
@@ -72,22 +70,15 @@ class InvoiceController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Process the data and calculate the total price for the invoice
-            $totalPrice = 0;
-            $selectedProducts = $invoice->getProducts();
-            foreach ($selectedProducts as $product) {
-                $price = $product->getPrice();
-                $totalPrice += $price;
-            }
-
-            // Set the total price for the invoice
-            $invoice->setTotalPrice($totalPrice);
 
             // Save the invoice to the database
             $manager->persist($invoice);
             $manager->flush();
-
+            $this->addFlash(
+                'success',
+                'Votre facture a été modifiée avec succès'
+            );
             return $this->redirectToRoute('invoices.index');
-            ;
         }
 
         return $this->render('invoices/edit.html.twig', [
@@ -100,7 +91,10 @@ class InvoiceController extends AbstractController
         $invoice = $repository->findOneBy(["id" => $id]);
         $manager ->remove($invoice);
         $manager ->flush();
-
+        $this->addFlash(
+            'success',
+            'Votre facture a été supprimée avec succès'
+        );
         return $this->redirectToRoute('invoices.index');
     }
 }
