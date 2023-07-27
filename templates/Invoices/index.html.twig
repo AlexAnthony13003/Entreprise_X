@@ -17,7 +17,7 @@
 		{% for chunk in invoices|batch(4) %}
 			<div class="d-flex justify-content-center container mt-5">
 				{% for invoice in chunk %}
-					<div class="card p-3 bg-white">
+					<div class="card p-3 bg-white max-card-width max-card-height">
 						<div class="about-product text-center mt-2">
 							<div>
 								<h3>Facture n°{{ invoice.id }}</h3>
@@ -46,9 +46,10 @@
 						<a href="{{ path('invoices.edit', { id: invoice.id })}}" class="btn btn-info mt-4">Modifier</a>
 						<a href="{{ path('invoices.delete', { id: invoice.id })}}" class="btn btn-warning mt-4">Supprimer</a>
 					</div>
+			<div class="spacer"></div>
+
 				{% endfor %}
 			</div>
-			<div class="spacer"></div>
 		{% endfor %}
 		<div class="navigation d-flex justify-content-center mt-4">
 			{{ knp_pagination_render(invoices) }}

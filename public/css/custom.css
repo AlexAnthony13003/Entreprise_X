@@ -1,4 +1,11 @@
 .spacer {
-    height: 20px; /* Espace vertical souhaité entre les groupes de factures */
-  }
-  
+  margin-right: 20px; 
+}
+.max-card-height {
+  max-height: 600px; /* Remplacez la valeur par la hauteur maximale souhaitée */
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+.max-card-width {
+  max-width: 400px; /* Remplacez la valeur par la largeur maximale souhaitée */
+}
