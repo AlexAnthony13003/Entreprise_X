@@ -9,6 +9,21 @@
 
 		<a href="{{ path ('invoices.new')}}" class="btn btn-dark mt-4">Ajouter une facture</a>
 
+
+		<div class="main-search-input-wrap">
+
+
+			<div class="main-search-input fl-wrap">
+				<div class="main-search-input-item">
+					<input type="text" id="searchInput" value="" placeholder="Nom, prenom, numero de facture...">
+				</div>
+
+				<button class="main-search-button btn-primary">Rechercher</button>
+			</div>
+
+
+		</div>
+
 		{% for message in app.flashes('success') %}
 			<div class="alert alert-success mt-4">
 				{{ message }}
@@ -20,8 +35,8 @@
 					<div class="card p-3 bg-white max-card-width max-card-height">
 						<div class="about-product text-center mt-2">
 							<div>
-								<h3>Facture n°{{ invoice.id }}</h3>
-								<h5 class="mt-0 text-black-50">{{ invoice.customerId.lastName }}
+								<h3 class="invoice-id-value">Facture n°{{ invoice.id }}</h3>
+								<h5 class="mt-0 text-black-50 invoice-name">{{ invoice.customerId.lastName }}
 									{{ invoice.customerId.firstName }}</h5>
 								<h6 class="mt-0 text-black-50">{{ invoice.customerId.street }}</h6>
 								<h6 class="mt-0 text-black-50">{{ invoice.customerId.postalCode }}</h6>
@@ -32,7 +47,8 @@
 						<div class="stats mt-2">
 							{% for product in invoice.products %}
 								<div class="d-flex justify-content-between p-price">
-									<span>{{ product.name }} -></span>
+									<span>{{ product.name }}
+										-></span>
 									<span>
 										{{product.price}}€</span>
 								</div>
@@ -46,7 +62,7 @@
 						<a href="{{ path('invoices.edit', { id: invoice.id })}}" class="btn btn-info mt-4">Modifier</a>
 						<a href="{{ path('invoices.delete', { id: invoice.id })}}" class="btn btn-warning mt-4">Supprimer</a>
 					</div>
-			<div class="spacer"></div>
+					<div class="spacer"></div>
 
 				{% endfor %}
 			</div>
