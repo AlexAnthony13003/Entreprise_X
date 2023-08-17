@@ -94,7 +94,7 @@ class CustomerController extends AbstractController
         $manager ->flush();
         $this->addFlash(
             'success',
-            'Votre ingrédient a été supprimé avec succès'
+            'Le client a été supprimé avec succès'
         );
 
         return $this->redirectToRoute('customers.index');

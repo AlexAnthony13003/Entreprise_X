@@ -2,11 +2,10 @@
 
 namespace App\Form;
 
-use App\Entity\Adress;
 use App\Entity\Customer;
 use Symfony\Component\Form\AbstractType;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -62,7 +61,7 @@ class CustomerType extends AbstractType
                 ]
 
             ])
-            ->add('postalCode', TextType::class, [
+            ->add('postalCode', Integer::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'minlength' => '6',
