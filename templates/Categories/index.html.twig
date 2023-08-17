@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entreprise X - Catégories
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-4">
+		<h1>Categories</h1>
+
+		<a href="{{ path ('categories.new')}}" class="btn btn-dark mt-4">Ajouter un produit</a>
+
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success mt-4">
+				{{ message }}
+			</div>
+		{% endfor %}
+
+		<table class="table table-hover mt-4">
+			<thead>
+				<tr class="table-secondary">
+					<th scope="col">Numéro</th>
+					<th scope="col">Nom</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for category in categories %}
+					<th scope="row">{{ category.id }}</th>
+					<td>{{ category.nameCat }}</td>
+					<td>
+						<a href="{{ path('categories.edit', { id: category.id })}}" class="btn btn-info">Modifier</a>
+					</td>
+					<td>
+						<a href="{{ path('categories.delete', { id: category.id })}}" class="btn btn-warning">Supprimer</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="navigation d-flex justify-content-center mt-4">
+		{{ knp_pagination_render(categories) }}
+	</div>
+</div>{% endblock %}
