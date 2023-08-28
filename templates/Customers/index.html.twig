@@ -9,11 +9,7 @@
 
 		<a href="{{ path ('customers.new')}}" class=" btn btn-dark mt-4">Ajouter un Client</a>
 
-		{% for message in app.flashes('success') %}
-        <div class="alert alert-success mt-4">
-          {{ message }}
-        </div>
-        {% endfor %}
+		{{ parent() }}
 
 		<table class="table table-hover mt-4">
 			<thead>
