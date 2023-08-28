@@ -16,24 +16,13 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('nameCat', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                    'minlength' => '2',
-                    'maxlength' => '50'
-                ],
                 'label' => 'Nom',
-                'label_attr' => [
-                    'class' => 'form-label mt-4'
-                ],
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 50]),
                     new Assert\NotBlank()
                 ]
                 ])
             ->add('submit', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-dark mt-4'
-                ],
                 'label' => 'Valider'
                 ]);    
                 ;
