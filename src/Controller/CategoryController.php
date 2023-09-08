@@ -20,7 +20,6 @@ class CategoryController extends AbstractController
     #[Route('/categories', name: 'categories.index', methods: ['GET'])]
     public function index(CategoryRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_USER");
         $categories = $paginator->paginate(
             $repository->findAll(),
             $request->query->getInt('page', 1),
@@ -34,15 +33,14 @@ class CategoryController extends AbstractController
     /**
      * Form POST Createcategory
      */
-    #[Route('/categories/new', 'categories.new', methods:['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $manager) : Response
+    #[Route('/categories/new', 'categories.new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $manager): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_USER");
         $category = new category();
         $form = $this->createForm(CategoryType::class, $category);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()&& $form-> isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $category = $form->getData();
             $this->addFlash(
                 'success',
@@ -63,13 +61,12 @@ class CategoryController extends AbstractController
      * UPDATE a category with a form
      */
     #[Route('/categories/edit/{id}', 'categories.edit', methods: ['GET', 'POST'])]
-    public function edit(CategoryRepository $repository, int $id, Request $request, EntityManagerInterface $manager) : Response
+    public function edit(CategoryRepository $repository, int $id, Request $request, EntityManagerInterface $manager): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_USER");
         $category = $repository->findOneBy(["id" => $id]);
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
-        if ($form->isSubmitted()&& $form-> isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $category = $form->getData();
             $this->addFlash(
                 'success',
@@ -82,21 +79,33 @@ class CategoryController extends AbstractController
         }
 
         return $this->render('Categories/edit.html.twig', [
-            'form' =>$form->createView()
+            'form' => $form->createView()
         ]);
     }
 
-    #[Route('/categories/delete/{id}', 'categories.delete', methods: ['GET'])]
-    public function delete(int $id, CategoryRepository $repository, EntityManagerInterface $manager) : Response{
-        
+    #[Route('/categories/delete/{id}', name: 'categories.delete', methods: ['GET'])]
+    public function deleteCategory(int $id, CategoryRepository $repository, EntityManagerInterface $manager): Response
+    {
         $category = $repository->findOneBy(["id" => $id]);
-        $manager ->remove($category);
+        $products = $category->getProducts();
+    
+        if (!$products->isEmpty()) {
+            $this->addFlash(
+                'danger',
+                'Vous devez au préalable supprimer tous les produits de cette catégorie'
+            );
+            return $this->redirectToRoute('categories.index');
+        }
+    
+        $manager->remove($category);
+        $manager->flush();
+    
         $this->addFlash(
             'success',
-            'Votre categorie a été supprimé avec succès'
+            'La catégorie a été supprimée avec succès'
         );
-        $manager ->flush();
-
+    
         return $this->redirectToRoute('categories.index');
     }
+    
 }

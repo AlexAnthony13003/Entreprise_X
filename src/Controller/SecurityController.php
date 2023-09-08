@@ -16,7 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class SecurityController extends AbstractController
 {
     #[Route('/connexion', name: 'security.login', methods: ['GET', 'POST'])]
-    public function login(AuthenticationUtils $authenticationUtils ): Response
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
         return $this->render('security/login.html.twig', [
             'last_username' => $authenticationUtils->getLastUsername(),
@@ -25,23 +25,25 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/deconnexion', 'security.logout')]
-    public function logout(){}
+    public function logout()
+    {
+    }
 
     #[Route('/inscription', 'security.registration', methods: ['GET', 'POST'])]
-    public function registration(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $passwordHasher) : Response
+    public function registration(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $user->setRoles(['ROLE_USER']);
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
             $plainPassword = $form->get('password')->getData();
             $hashPassword = $passwordHasher->hashPassword(
                 $user,
                 $plainPassword
             );
-        $user->setPassword($hashPassword);
+            $user->setPassword($hashPassword);
             $this->addFlash(
                 'success',
                 'Votre Compte a été créé avec succès'
