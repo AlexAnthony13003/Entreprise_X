@@ -24,6 +24,9 @@ class Product
     #[ORM\Column]
     private ?float $price = null;
 
+    #[ORM\Column]
+    private ?bool $isHidden = false;
+
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $idCat = null;
 
@@ -72,6 +75,18 @@ class Product
     public function setPrice(float $price): static
     {
         $this->price = $price;
+
+        return $this;
+    }
+    
+    public function getIsHidden(): ?bool
+    {
+        return $this->isHidden;
+    }
+
+    public function setisHidden(bool $isHidden): static
+    {
+        $this->isHidden = $isHidden;
 
         return $this;
     }

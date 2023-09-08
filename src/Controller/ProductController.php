@@ -20,29 +20,33 @@ class ProductController extends AbstractController
     #[Route('/products', name: 'products.index', methods: ['GET'])]
     public function index(ProductRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_USER");
+        $queryBuilder = $repository->createQueryBuilder('p')
+            ->where('p.isHidden = :isHidden')
+            ->setParameter('isHidden', 0)
+            ->getQuery();
+
         $products = $paginator->paginate(
-            $repository->findAll(),
+            $queryBuilder,
             $request->query->getInt('page', 1),
             10
         );
+
         return $this->render('products/index.html.twig', [
-            'products' => $products
+            'products' => $products,
         ]);
     }
 
     /**
      * Form POST CreateProduct
      */
-    #[Route('/products/new', 'products.new', methods:['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $manager) : Response
+    #[Route('/products/new', 'products.new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $manager): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_USER");
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()&& $form-> isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $product = $form->getData();
             $this->addFlash(
                 'success',
@@ -63,13 +67,12 @@ class ProductController extends AbstractController
      * UPDATE a product with a form
      */
     #[Route('/products/edit/{id}', 'products.edit', methods: ['GET', 'POST'])]
-    public function edit(ProductRepository $repository, int $id, Request $request, EntityManagerInterface $manager) : Response
+    public function edit(ProductRepository $repository, int $id, Request $request, EntityManagerInterface $manager): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_USER");
         $product = $repository->findOneBy(["id" => $id]);
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
-        if ($form->isSubmitted()&& $form-> isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $product = $form->getData();
             $this->addFlash(
                 'success',
@@ -82,20 +85,21 @@ class ProductController extends AbstractController
         }
 
         return $this->render('products/edit.html.twig', [
-            'form' =>$form->createView()
+            'form' => $form->createView()
         ]);
     }
 
-    #[Route('/products/delete/{id}', 'products.delete', methods: ['GET'])]
-    public function delete(int $id, ProductRepository $repository, EntityManagerInterface $manager) : Response{
-        
+    #[Route('/products/delete/{id}', 'products.delete', methods: ['GET', 'POST'])]
+    public function delete(int $id, ProductRepository $repository, EntityManagerInterface $manager , Request $request): Response
+    {
+
         $product = $repository->findOneBy(["id" => $id]);
-        $manager ->remove($product);
+        $product->setisHidden(1);
         $this->addFlash(
             'success',
             'Votre produit a été supprimé avec succès'
         );
-        $manager ->flush();
+        $manager->flush();
 
         return $this->redirectToRoute('products.index');
     }

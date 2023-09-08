@@ -17,7 +17,7 @@ class Invoice
 
     #[ORM\ManyToOne(inversedBy: 'invoices')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Customer $customerId = null;
+    private ?Customer $customerID = null;
 
     #[ORM\Column]
     private ?\DateTime $date = null;
@@ -41,12 +41,12 @@ class Invoice
 
     public function getCustomerId(): ?Customer
     {
-        return $this->customerId;
+        return $this->customerID;
     }
 
-    public function setCustomerId(?Customer $customerId): static
+    public function setCustomerId(?Customer $customerID): static
     {
-        $this->customerId = $customerId;
+        $this->customerID = $customerID;
 
         return $this;
     }

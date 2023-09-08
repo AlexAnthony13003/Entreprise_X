@@ -3,10 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Invoice;
-use App\Entity\Product;
-use App\Entity\Customer;
 use App\Form\InvoiceType;
-use App\Form\OrderItemType;
 use App\Repository\InvoiceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -20,7 +17,6 @@ class InvoiceController extends AbstractController
     #[Route('/invoices', name: 'invoices.index', methods: ['GET'])]
     public function index(InvoiceRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_USER");
         $invoices = $paginator->paginate(
             $repository->findAll(),
             $request->query->getInt('page', 1),
@@ -32,39 +28,37 @@ class InvoiceController extends AbstractController
     }
     #[Route('/invoices/new', name: 'invoices.new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
-{
-    $this->denyAccessUnlessGranted("ROLE_USER");
-    $invoice = new Invoice();
+    {
+        $invoice = new Invoice();
 
-    $form = $this->createForm(InvoiceType::class, $invoice);
+        $form = $this->createForm(InvoiceType::class, $invoice);
 
-    $form->handleRequest($request);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-        $totalPrice = $form->get('totalPrice')->getData();
+            $totalPrice = $form->get('totalPrice')->getData();
 
             // Set the total price for the invoice
             $invoice->setTotalPrice($totalPrice);
 
-        // Save the invoice to the database
-        $entityManager->persist($invoice);
-        $entityManager->flush();
-        $this->addFlash(
-            'success',
-            'Votre facture a été créée avec succès'
-        );
-        return $this->redirectToRoute('invoices.index');
-    }
+            // Save the invoice to the database
+            $entityManager->persist($invoice);
+            $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'Votre facture a été créée avec succès'
+            );
+            return $this->redirectToRoute('invoices.index');
+        }
 
-    return $this->render('invoices/new.html.twig', [
-        'form' => $form->createView(),
-    ]);
-}
+        return $this->render('invoices/new.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
     #[Route('/invoices/edit/{id}', 'invoices.edit', methods: ['GET', 'POST'])]
-    public function edit(InvoiceRepository $repository, int $id, Request $request, EntityManagerInterface $manager) : Response
+    public function edit(InvoiceRepository $repository, int $id, Request $request, EntityManagerInterface $manager): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_USER");
         $invoice = $repository->findOneBy(["id" => $id]);
         $form = $this->createForm(InvoiceType::class, $invoice);
         $form->handleRequest($request);
@@ -82,15 +76,16 @@ class InvoiceController extends AbstractController
         }
 
         return $this->render('invoices/edit.html.twig', [
-            'form' =>$form->createView()
+            'form' => $form->createView()
         ]);
     }
     #[Route('/invoices/delete/{id}', 'invoices.delete', methods: ['GET'])]
-    public function delete(int $id, InvoiceRepository $repository, EntityManagerInterface $manager) : Response{
-        
+    public function delete(int $id, InvoiceRepository $repository, EntityManagerInterface $manager): Response
+    {
+
         $invoice = $repository->findOneBy(["id" => $id]);
-        $manager ->remove($invoice);
-        $manager ->flush();
+        $manager->remove($invoice);
+        $manager->flush();
         $this->addFlash(
             'success',
             'Votre facture a été supprimée avec succès'

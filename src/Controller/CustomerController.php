@@ -20,7 +20,6 @@ class CustomerController extends AbstractController
     #[Route('/customers', name: 'customers.index', methods: ['GET'])]
     public function index(CustomerRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_USER");
         $customers = $paginator->paginate(
             $repository->findAll(),
             $request->query->getInt('page', 1),
@@ -34,16 +33,15 @@ class CustomerController extends AbstractController
     /**
      * Form POST Create a customer
      */
-    #[Route('/customers/new', 'customers.new', methods:['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $manager) : Response
+    #[Route('/customers/new', 'customers.new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $manager): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_USER");
         $customer = new Customer();
         $form = $this->createForm(CustomerType::class, $customer);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()&& $form-> isValid()) {
-            $customer = $form->getData(); 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $customer = $form->getData();
             $manager->persist($customer);
             $this->addFlash(
                 'success',
@@ -63,13 +61,12 @@ class CustomerController extends AbstractController
      * UPDATE an customer with a form
      */
     #[Route('/customers/edition/{id}', 'customers.edit', methods: ['GET', 'POST'])]
-    public function edit(CustomerRepository $repository, int $id, Request $request, EntityManagerInterface $manager) : Response
+    public function edit(CustomerRepository $repository, int $id, Request $request, EntityManagerInterface $manager): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_USER", "user === customer.getUser()");
         $customer = $repository->findOneBy(["id" => $id]);
         $form = $this->createForm(CustomerType::class, $customer);
         $form->handleRequest($request);
-        if ($form->isSubmitted()&& $form-> isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $customer = $form->getData();
             $this->addFlash(
                 'success',
@@ -82,16 +79,25 @@ class CustomerController extends AbstractController
         }
 
         return $this->render('customers/edit.html.twig', [
-            'form' =>$form->createView()
+            'form' => $form->createView()
         ]);
     }
 
-    #[Route('/customers/suppression/{id}', 'customers.delete', methods: ['GET'])]
-    public function delete(int $id, CustomerRepository $repository, EntityManagerInterface $manager) : Response{
-        
+    #[Route('/customers/suppression/{id}', name: 'customers.delete', methods: ['GET'])]
+    public function delete(int $id, CustomerRepository $repository, EntityManagerInterface $manager): Response
+    {
         $customer = $repository->findOneBy(["id" => $id]);
-        $manager ->remove($customer);
-        $manager ->flush();
+        $invoices = $customer->getInvoices();
+
+        if (!$invoices->isEmpty()) {
+            $this->addFlash(
+                'danger',
+                'Vous devez au préalable supprimer toutes les factures en lien avec ce client'
+            );
+            return $this->redirectToRoute('customers.index');
+        }
+        $manager->remove($customer);
+        $manager->flush();
         $this->addFlash(
             'success',
             'Le client a été supprimé avec succès'
